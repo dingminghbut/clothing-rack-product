@@ -228,6 +228,77 @@
             margin-bottom: 4rem;
         }
         
+        /* FAQ Section */
+        .faq {
+            padding: 6rem 2rem;
+            background: #fff;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-list {
+            margin-top: 3rem;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .faq-question {
+            padding: 1.5rem 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+            transition: color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            color: var(--accent);
+        }
+        
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--accent);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding-bottom: 1.5rem;
+        }
+        
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -658,6 +729,70 @@
         </div>
     </section>
 
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="faq-container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Common questions about our product</p>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What is the weight capacity of this clothes rack?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our HYSEYY Heavy Duty Double Rod Clothes Rack has a total capacity of 210 lbs. The double rods can hold up to 160 lbs, and the bottom shelf can support an additional 50 lbs. This makes it perfect for heavy winter coats, multiple garments, and even bulky items like comforters.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Do I need tools to assemble this rack?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No tools are required! This clothes rack features a threaded rolling connection design that allows you to assemble it in just 15 minutes without any wrenches or screwdrivers. Simply connect the poles by twisting them together.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Will the wheels work on carpet?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! The 360° rotating wheels are designed to work smoothly on various surfaces including hardwood floors, tiles, laminate, and low-pile carpets. For high-pile carpets, you may need to apply slightly more force. All wheels have locks to secure the rack in place when needed.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What is your return policy?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer a 30-day hassle-free return policy. If you're not completely satisfied with your purchase, you can return it for a full refund within 30 days of delivery. Please ensure the item is in its original condition and packaging.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What is the warranty period?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>All HYSEYY clothes racks come with a 1-year quality warranty that covers manufacturing defects in materials and workmanship. If you encounter any issues within the warranty period, please contact us for a replacement or repair.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What scenes is this rack suitable for?
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>This versatile clothes rack is perfect for bedrooms, living rooms, laundry rooms, balconies, dormitories, RVs, and even clothing stores. Its sleek black design complements any modern home interior while providing practical storage solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Final CTA -->
     <section class="final-cta">
         <h2>Start Your Organized Life Today</h2>
@@ -700,14 +835,26 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    if (entry.target.classList.contains('faq-item')) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.feature-card, .spec-item, .use-case, .user-card').forEach(el => {
+        document.querySelectorAll('.feature-card, .spec-item, .use-case, .user-card, .faq-item').forEach(el => {
             observer.observe(el);
+        });
+
+        // FAQ accordion functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
         });
     </script>
 </body>
